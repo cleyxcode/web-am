@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('judul');
             $table->longText('isi');
             $table->string('file_pdf')->nullable();
+            $table->string('banner')->nullable();
             $table->timestamps();
         });
     }

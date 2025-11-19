@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('umur');
             $table->longText('deskripsi');
             $table->timestamps();
+            $table->string('banner')->nullable();
         });
     }
 

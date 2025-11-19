@@ -3,45 +3,49 @@
 @section('title', 'Tata Kebaktian - ' . $settings->ranting_nama)
 
 @section('content')
-    <!-- Header Section dengan Animated Background -->
-    <section class="relative bg-gradient-to-br from-purple-600 to-purple-800 text-white py-16 overflow-hidden">
-        <!-- Animated Background Elements -->
+    <!-- Hero Section dengan Parallax & Particle Effects -->
+    <section class="relative bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 text-white overflow-hidden">
+        @if($settings->banner_desa)
+            <div class="absolute inset-0 opacity-20 parallax-bg">
+                <img src="{{ $settings->banner_url }}" alt="Banner" class="w-full h-full object-cover">
+            </div>
+        @endif
+        
+        <!-- Animated Background Shapes -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="liturgy-bg-shape shape-1"></div>
-            <div class="liturgy-bg-shape shape-2"></div>
-            <div class="liturgy-bg-shape shape-3"></div>
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+            <div class="floating-shape shape-4"></div>
         </div>
         
-        <!-- Animated Grid Pattern -->
-        <div class="absolute inset-0 opacity-10">
-            <div class="grid-pattern"></div>
-        </div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
             <div class="text-center">
+                <!-- Animated Icon -->
                 <div class="inline-block mb-6 animate-bounce-in">
                     <svg class="w-16 h-16 mx-auto text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                     </svg>
                 </div>
-                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 animate-slide-down">
+                
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-6 animate-slide-up" style="animation-delay: 0.1s">
                     Tata Kebaktian
                 </h1>
-                <p class="text-xl text-purple-100 max-w-2xl mx-auto animate-fade-in-up" style="animation-delay: 0.2s">
-                    Panduan liturgi untuk kebaktian Angkatan Muda
+                <p class="text-xl md:text-2xl text-purple-100 mb-8 max-w-3xl mx-auto animate-slide-up" style="animation-delay: 0.3s">
+                    Panduan liturgi untuk kebaktian Angkatan Muda {{ $settings->ranting_nama }}
                 </p>
                 
                 <!-- Decorative Line -->
                 <div class="flex justify-center mt-8">
-                    <div class="w-24 h-1 bg-purple-300 rounded-full animate-expand-width"></div>
+                    <div class="w-24 h-1 bg-purple-300 rounded-full animate-expand"></div>
                 </div>
             </div>
         </div>
 
         <!-- Wave Decoration -->
-        <div class="absolute bottom-0 left-0 right-0">
-            <svg class="wave-svg" viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 100L60 88.3C120 76.7 240 53.3 360 41.7C480 30 600 30 720 35C840 40 960 50 1080 55C1200 60 1320 60 1380 60L1440 60V100H1380C1320 100 1200 100 1080 100C960 100 840 100 720 100C600 100 480 100 360 100C240 100 120 100 60 100H0Z" fill="#F9FAFB"/>
+        <div class="absolute bottom-0 left-0 right-0 wave-animation">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#F9FAFB"/>
             </svg>
         </div>
     </section>
@@ -51,7 +55,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @if($tataKebaktian->count() > 0)
                 <!-- Stats Counter Animation -->
-                <div class="text-center mb-12 animate-fade-in">
+                <div class="text-center mb-12 reveal-on-scroll">
                     <div class="inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-lg">
                         <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
@@ -65,8 +69,8 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($tataKebaktian as $index => $liturgi)
-                        <div class="liturgy-card" data-index="{{ $index }}">
-                            <div class="liturgy-card-inner">
+                        <div class="liturgy-card reveal-on-scroll" style="animation-delay: {{ $index * 0.1 }}s">
+                            <div class="card-inner h-full flex flex-col">
                                 <!-- Header Card dengan Gradient Animation -->
                                 <div class="liturgy-header bg-gradient-to-br from-purple-500 to-purple-700 p-6 text-white relative overflow-hidden">
                                     <!-- Animated Shine Effect -->
@@ -92,9 +96,9 @@
                                 </div>
 
                                 <!-- Body Card -->
-                                <div class="p-6 bg-white">
-                                    <!-- Content Preview dengan Typing Effect -->
-                                    <div class="prose prose-sm max-w-none text-gray-700 mb-6 line-clamp-3 content-preview">
+                                <div class="p-6 bg-white flex-1 flex flex-col">
+                                    <!-- Content Preview -->
+                                    <div class="prose prose-sm max-w-none text-gray-700 mb-6 line-clamp-3 content-preview flex-1">
                                         {!! Str::limit(strip_tags($liturgi->isi), 150) !!}
                                     </div>
 
@@ -108,7 +112,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                                                 </svg>
                                             </span>
-                                            <div class="btn-detail-bg"></div>
+                                            <div class="btn-shine"></div>
                                         </a>
 
                                         @if($liturgi->file_pdf)
@@ -135,20 +139,20 @@
                 </div>
             @else
                 <!-- Empty State dengan Animation -->
-                <div class="empty-state">
+                <div class="text-center py-12 reveal-on-scroll">
                     <div class="empty-icon-wrapper">
-                        <svg class="w-12 h-12 text-purple-600 empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-24 h-24 text-purple-600 empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                         </svg>
                         <div class="empty-icon-ring"></div>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2 animate-fade-in">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">
                         Belum Ada Tata Kebaktian
                     </h3>
-                    <p class="text-gray-600 mb-6 animate-fade-in" style="animation-delay: 0.2s">
+                    <p class="text-gray-600 mb-6">
                         Tata kebaktian akan segera ditambahkan oleh admin
                     </p>
-                    <a href="{{ route('home') }}" class="btn-back group animate-fade-in" style="animation-delay: 0.4s">
+                    <a href="{{ route('home') }}" class="btn-back group">
                         <svg class="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                         </svg>
@@ -161,70 +165,71 @@
 
     <style>
         /* Header Background Animations */
-        .liturgy-bg-shape {
+        .floating-shape {
             position: absolute;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(40px);
+            animation: float 20s infinite ease-in-out;
         }
         
         .shape-1 {
-            width: 400px;
-            height: 400px;
-            top: -200px;
-            left: -100px;
-            animation: float-diagonal 20s infinite ease-in-out;
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
         }
         
         .shape-2 {
-            width: 300px;
-            height: 300px;
-            top: 50%;
-            right: -150px;
-            animation: float-diagonal 15s infinite ease-in-out reverse;
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
             animation-delay: 2s;
         }
         
         .shape-3 {
-            width: 200px;
-            height: 200px;
-            bottom: -100px;
-            left: 30%;
-            animation: float-diagonal 18s infinite ease-in-out;
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 20%;
             animation-delay: 4s;
         }
         
-        @keyframes float-diagonal {
+        .shape-4 {
+            width: 250px;
+            height: 250px;
+            top: 30%;
+            right: 30%;
+            animation-delay: 6s;
+        }
+        
+        @keyframes float {
             0%, 100% {
-                transform: translate(0, 0) rotate(0deg);
+                transform: translate(0, 0) scale(1);
             }
             25% {
-                transform: translate(30px, -30px) rotate(90deg);
+                transform: translate(20px, -20px) scale(1.1);
             }
             50% {
-                transform: translate(-20px, 20px) rotate(180deg);
+                transform: translate(-20px, 20px) scale(0.9);
             }
             75% {
-                transform: translate(20px, 30px) rotate(270deg);
+                transform: translate(20px, 20px) scale(1.05);
             }
         }
 
-        /* Grid Pattern Animation */
-        .grid-pattern {
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            height: 100%;
-            animation: grid-move 20s linear infinite;
+        /* Wave Animation */
+        .wave-animation {
+            animation: wave 3s ease-in-out infinite;
         }
         
-        @keyframes grid-move {
-            0% {
-                transform: translate(0, 0);
+        @keyframes wave {
+            0%, 100% {
+                transform: translateX(0);
             }
-            100% {
-                transform: translate(50px, 50px);
+            50% {
+                transform: translateX(-10px);
             }
         }
 
@@ -250,11 +255,11 @@
             animation: bounce-in 1s ease-out;
         }
 
-        /* Slide Down Animation */
-        @keyframes slide-down {
+        /* Slide Up Animation */
+        @keyframes slide-up {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -262,104 +267,50 @@
             }
         }
         
-        .animate-slide-down {
-            animation: slide-down 0.8s ease-out 0.2s both;
+        .animate-slide-up {
+            animation: slide-up 0.8s ease-out forwards;
+            opacity: 0;
         }
 
-        /* Fade In Up */
-        @keyframes fade-in-up {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .animate-fade-in-up {
-            animation: fade-in-up 0.8s ease-out both;
-        }
-
-        /* Expand Width */
-        @keyframes expand-width {
+        /* Expand Line Animation */
+        @keyframes expand {
             from {
                 width: 0;
-                opacity: 0;
             }
             to {
                 width: 6rem;
-                opacity: 1;
             }
         }
         
-        .animate-expand-width {
-            animation: expand-width 1s ease-out 0.5s both;
+        .animate-expand {
+            animation: expand 1s ease-out forwards;
         }
 
-        /* Wave SVG Animation */
-        .wave-svg {
-            animation: wave-move 5s ease-in-out infinite;
+        /* Reveal on Scroll */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
         
-        @keyframes wave-move {
-            0%, 100% {
-                transform: translateX(0);
-            }
-            50% {
-                transform: translateX(-20px);
-            }
-        }
-
-        /* Counter Animation */
-        .counter-number {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-
-        .animate-fade-in {
-            animation: fade-in 1s ease-out;
-        }
-        
-        @keyframes fade-in {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .reveal-on-scroll.revealed {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Liturgy Card Animations */
-        .liturgy-card {
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-            animation: card-appear 0.6s ease-out forwards;
-        }
-        
-        .liturgy-card:nth-child(1) { animation-delay: 0.1s; }
-        .liturgy-card:nth-child(2) { animation-delay: 0.2s; }
-        .liturgy-card:nth-child(3) { animation-delay: 0.3s; }
-        .liturgy-card:nth-child(4) { animation-delay: 0.4s; }
-        .liturgy-card:nth-child(5) { animation-delay: 0.5s; }
-        .liturgy-card:nth-child(6) { animation-delay: 0.6s; }
-        
-        @keyframes card-appear {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .liturgy-card-inner {
+        .liturgy-card .card-inner {
             background: white;
             border-radius: 1rem;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             height: 100%;
         }
         
-        .liturgy-card:hover .liturgy-card-inner {
-            transform: translateY(-10px) rotateX(2deg);
+        .liturgy-card:hover .card-inner {
+            transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(124, 58, 237, 0.3);
         }
 
@@ -479,17 +430,17 @@
             overflow: hidden;
         }
         
-        .btn-detail-bg {
+        .btn-detail .btn-shine {
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s ease;
+            transition: left 0.5s;
         }
         
-        .btn-detail:hover .btn-detail-bg {
+        .btn-detail:hover .btn-shine {
             left: 100%;
         }
         
@@ -565,11 +516,6 @@
         }
 
         /* Empty State Animations */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 1rem;
-        }
-        
         .empty-icon-wrapper {
             display: inline-flex;
             align-items: center;
@@ -657,9 +603,28 @@
             }
         }
 
+        /* Line Clamp Utilities */
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Counter Animation */
+        .counter-number {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        /* Parallax Background */
+        .parallax-bg {
+            transition: transform 0.5s ease-out;
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .liturgy-card:hover .liturgy-card-inner {
+            .liturgy-card:hover .card-inner {
                 transform: translateY(-5px);
             }
         }
@@ -684,7 +649,7 @@
                 }, 30);
             }
 
-            // Intersection Observer for Card Animations
+            // Intersection Observer untuk reveal animations
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -693,17 +658,27 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.style.animationPlayState = 'running';
+                        entry.target.classList.add('revealed');
                     }
                 });
             }, observerOptions);
             
-            document.querySelectorAll('.liturgy-card').forEach(card => {
-                observer.observe(card);
+            // Observe semua elemen dengan class reveal-on-scroll
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                observer.observe(el);
             });
+            
+            // Parallax effect untuk hero background
+            const parallaxBg = document.querySelector('.parallax-bg');
+            if (parallaxBg) {
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.pageYOffset;
+                    parallaxBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+                });
+            }
 
             // Add 3D Tilt Effect on Cards
-            document.querySelectorAll('.liturgy-card-inner').forEach(card => {
+            document.querySelectorAll('.card-inner').forEach(card => {
                 card.addEventListener('mousemove', (e) => {
                     const rect = card.getBoundingClientRect();
                     const x = e.clientX - rect.left;

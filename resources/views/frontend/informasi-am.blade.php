@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Pengurus Ranting - ' . $settings->ranting_nama)
+@section('title', 'Informasi Angkatan Muda - ' . $settings->ranting_nama)
 
 @section('content')
     <!-- Hero Section dengan Parallax & Particle Effects -->
@@ -24,22 +24,34 @@
                 <!-- Animated Icon -->
                 <div class="inline-block mb-6 animate-bounce-in">
                     <svg class="w-16 h-16 mx-auto text-purple-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
                 </div>
                 
                 <h1 class="text-4xl md:text-6xl font-extrabold mb-6 animate-slide-up" style="animation-delay: 0.1s">
-                    Pengurus Ranting
+                    Informasi Angkatan Muda
                 </h1>
                 <p class="text-xl md:text-2xl text-purple-100 mb-8 max-w-3xl mx-auto animate-slide-up" style="animation-delay: 0.3s">
-                    Tim yang berdedikasi melayani Angkatan Muda {{ $settings->ranting_nama }} dengan sepenuh hati
+                    Berita, pengumuman, dan kegiatan terbaru dari Angkatan Muda {{ $settings->ranting_nama }}
                 </p>
                 
                 <!-- Stats Counter -->
                 <div class="flex flex-wrap justify-center gap-6 mt-8 animate-slide-up" style="animation-delay: 0.5s">
                     <div class="text-center">
-                        <div class="text-2xl font-bold text-white counter-number" data-target="{{ $pengurus->count() }}">0</div>
-                        <div class="text-purple-200 text-sm">Total Pengurus</div>
+                        <div class="text-2xl font-bold text-white counter-number" data-target="{{ $totalPengumuman + $totalBerita + $totalKegiatan }}">0</div>
+                        <div class="text-purple-200 text-sm">Total Informasi</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-yellow-300 counter-number" data-target="{{ $totalPengumuman }}">0</div>
+                        <div class="text-purple-200 text-sm">Pengumuman</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-blue-300 counter-number" data-target="{{ $totalBerita }}">0</div>
+                        <div class="text-purple-200 text-sm">Berita</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-green-300 counter-number" data-target="{{ $totalKegiatan }}">0</div>
+                        <div class="text-purple-200 text-sm">Kegiatan</div>
                     </div>
                 </div>
 
@@ -58,67 +70,143 @@
         </div>
     </section>
 
+    <!-- Filter Section dengan Sticky Animation -->
+    <div class="bg-white shadow-lg sticky top-20 z-40 filter-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-wrap gap-3 justify-center reveal-on-scroll">
+
+                <a href="{{ route('informasi-am') }}"
+                    class="filter-btn px-6 py-2.5 rounded-full font-medium transition-all duration-300 relative overflow-hidden
+                    {{ !$jenis ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg active-filter' : 'bg-gray-100 text-gray-700 hover:bg-purple-50 hover:text-purple-700' }}">
+                    <span class="relative z-10">📋 Semua ({{ $totalPengumuman + $totalBerita + $totalKegiatan }})</span>
+                    <div class="btn-shine"></div>
+                </a>
+
+                <a href="{{ route('informasi-am', ['jenis' => 'pengumuman']) }}"
+                    class="filter-btn px-6 py-2.5 rounded-full font-medium transition-all duration-300 relative overflow-hidden
+                    {{ $jenis == 'pengumuman' ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-lg active-filter' : 'bg-gray-100 text-gray-700 hover:bg-yellow-50 hover:text-yellow-700' }}">
+                    <span class="relative z-10">📢 Pengumuman ({{ $totalPengumuman }})</span>
+                    <div class="btn-shine"></div>
+                </a>
+
+                <a href="{{ route('informasi-am', ['jenis' => 'berita']) }}"
+                    class="filter-btn px-6 py-2.5 rounded-full font-medium transition-all duration-300 relative overflow-hidden
+                    {{ $jenis == 'berita' ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg active-filter' : 'bg-gray-100 text-gray-700 hover:bg-blue-50 hover:text-blue-700' }}">
+                    <span class="relative z-10">📰 Berita ({{ $totalBerita }})</span>
+                    <div class="btn-shine"></div>
+                </a>
+
+                <a href="{{ route('informasi-am', ['jenis' => 'kegiatan']) }}"
+                    class="filter-btn px-6 py-2.5 rounded-full font-medium transition-all duration-300 relative overflow-hidden
+                    {{ $jenis == 'kegiatan' ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg active-filter' : 'bg-gray-100 text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
+                    <span class="relative z-10">📅 Kegiatan ({{ $totalKegiatan }})</span>
+                    <div class="btn-shine"></div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Content Section -->
     <section class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            @if($pengurus->count() > 0)
-                <!-- Statistics dengan Animation -->
-                <div class="text-center mb-12 reveal-on-scroll">
-                    <div class="inline-flex items-center gap-3 bg-white rounded-full shadow-lg px-8 py-4 hover-card">
-                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                        <div>
-                            <span class="text-3xl font-bold text-purple-600 counter-number" data-target="{{ $pengurus->count() }}">0</span>
-                            <span class="text-gray-600 ml-2">Pengurus Aktif</span>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Pengurus Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    @foreach($pengurus as $index => $p)
-                        <div class="pengurus-card reveal-on-scroll" style="animation-delay: {{ $index * 0.1 }}s">
+            @if ($informasiAM->count() > 0)
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach ($informasiAM as $index => $info)
+                        <div class="informasi-card reveal-on-scroll" style="animation-delay: {{ $index * 0.1 }}s">
                             <div class="card-inner h-full flex flex-col">
-                                <!-- Photo -->
-                                <div class="aspect-square overflow-hidden bg-gradient-to-br from-purple-100 to-purple-200 relative card-image-wrapper">
-                                    @if($p->foto)
-                                        <img src="{{ $p->foto_url }}" 
-                                             alt="{{ $p->nama }}" 
-                                             class="w-full h-full object-cover card-image">
-                                    @else
-                                        <div class="w-full h-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
-                                            <span class="text-white text-7xl font-bold">
-                                                {{ substr($p->nama, 0, 1) }}
-                                            </span>
-                                        </div>
-                                    @endif
-                                    
-                                    <!-- Overlay -->
-                                    <div class="card-overlay"></div>
+                                <!-- Thumbnail -->
+                                @if ($info->thumbnail_url)
+                                    <div class="relative h-56 overflow-hidden card-image-wrapper">
+                                        <img src="{{ $info->thumbnail_url }}" alt="{{ $info->judul }}"
+                                            class="w-full h-full object-cover card-image">
+                                        <div class="card-overlay"></div>
 
-                                    <!-- Profile Ring -->
-                                    <div class="profile-ring"></div>
-                                </div>
+                                        @if ($info->is_pinned)
+                                            <div class="absolute top-4 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg pinned-badge">
+                                                📌 PINNED
+                                            </div>
+                                        @endif
 
-                                <!-- Info -->
-                                <div class="p-6 flex-1 flex flex-col">
-                                    <div class="flex-1">
-                                        <h3 class="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-purple-700 transition-colors">
-                                            {{ $p->nama }}
-                                        </h3>
-                                        <div class="flex items-center gap-2 mb-3">
-                                            <span class="inline-block bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg badge-jabatan">
-                                                {{ $p->jabatan }}
+                                        <!-- Badge Jenis -->
+                                        <div class="absolute top-4 left-4">
+                                            <span class="badge-{{ $info->jenis }} px-3 py-1 rounded-full text-xs font-semibold text-white shadow-lg">
+                                                {{ $info->icon }} {{ ucfirst($info->jenis) }}
                                             </span>
-                                        </div>
-                                        <div class="flex items-center gap-2 text-gray-600">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                            </svg>
-                                            <span class="text-sm font-medium">{{ $p->umur }} Tahun</span>
                                         </div>
                                     </div>
+                                @else
+                                    <div class="relative h-56 bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 flex items-center justify-center">
+                                        <span class="text-7xl text-white">{{ $info->icon }}</span>
+
+                                        @if ($info->is_pinned)
+                                            <div class="absolute top-4 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg pinned-badge">
+                                                📌 PINNED
+                                            </div>
+                                        @endif
+
+                                        <!-- Badge Jenis -->
+                                        <div class="absolute top-4 left-4">
+                                            <span class="badge-{{ $info->jenis }} px-3 py-1 rounded-full text-xs font-semibold text-white shadow-lg">
+                                                {{ ucfirst($info->jenis) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <!-- Content -->
+                                <div class="p-6 flex-1 flex flex-col">
+                                    <div class="flex-1">
+                                        <!-- Date -->
+                                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+                                            {{ $info->published_at->format('d M Y') }}
+                                        </div>
+
+                                        <!-- Title -->
+                                        <h3 class="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-purple-700 transition-colors">
+                                            {{ $info->judul }}
+                                        </h3>
+
+                                        <!-- Excerpt -->
+                                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                                            {{ $info->excerpt ?? Str::limit(strip_tags($info->isi), 120) }}
+                                        </p>
+
+                                        <!-- Info Kegiatan -->
+                                        @if ($info->jenis == 'kegiatan' && $info->tanggal_kegiatan)
+                                            <div class="bg-purple-50 rounded-lg p-3 mb-4">
+                                                <div class="flex items-center text-sm text-purple-700 mb-1">
+                                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                    </svg>
+                                                    {{ $info->tanggal_kegiatan->format('d F Y') }}
+                                                </div>
+
+                                                @if ($info->lokasi)
+                                                    <div class="flex items-center text-sm text-purple-700">
+                                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                        </svg>
+                                                        {{ $info->lokasi }}
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </div>
+                                    
+                                    <!-- Button -->
+                                    <a href="{{ route('informasi-am.detail', $info->id) }}"
+                                        class="inline-flex items-center text-purple-700 hover:text-purple-900 font-semibold arrow-link group">
+                                        Baca Selengkapnya
+                                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
                                 </div>
 
                                 <!-- Card Glow Effect -->
@@ -128,46 +216,41 @@
                     @endforeach
                 </div>
 
-                <!-- CTA Section dengan Animation -->
-                <div class="mt-16 text-center reveal-on-scroll">
-                    <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 hover-card">
-                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 text-gradient">
-                            Ingin Bergabung?
-                        </h3>
-                        <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
-                            Kami selalu terbuka untuk anggota baru yang ingin melayani di Angkatan Muda
-                        </p>
-                        <a href="{{ route('home') }}" 
-                           class="btn-primary group inline-flex items-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                            </svg>
-                            <span class="relative z-10">Kembali ke Home</span>
-                            <div class="btn-shine"></div>
-                        </a>
+                <!-- Pagination -->
+                @if($informasiAM->hasPages())
+                    <div class="mt-12 reveal-on-scroll">
+                        <div class="flex justify-center">
+                            <div class="bg-white rounded-2xl shadow-lg p-4">
+                                {{ $informasiAM->links() }}
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @endif
 
             @else
                 <!-- Empty State dengan Animation -->
                 <div class="text-center py-12 reveal-on-scroll">
                     <div class="empty-icon-wrapper">
                         <svg class="w-24 h-24 text-purple-600 empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                         <div class="empty-icon-ring"></div>
                     </div>
-                    <h3 class="text-3xl font-bold text-gray-900 mb-3">Belum Ada Data Pengurus</h3>
-                    <p class="text-gray-600 mb-8 text-lg">Data pengurus ranting akan segera ditambahkan</p>
-                    <a href="{{ route('home') }}" 
-                       class="btn-back group">
-                        <svg class="w-6 h-6 mr-2 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">
+                        Belum Ada Informasi
+                    </h3>
+                    <p class="text-gray-600 mb-6">
+                        Belum ada informasi untuk ditampilkan.
+                    </p>
+                    <a href="{{ route('home') }}" class="btn-back group">
+                        <svg class="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                         </svg>
                         Kembali ke Home
                     </a>
                 </div>
             @endif
+
         </div>
     </section>
 
@@ -306,8 +389,34 @@
             transform: translateY(0);
         }
 
-        /* Pengurus Card Animations */
-        .pengurus-card .card-inner {
+        /* Filter Section Sticky Animation */
+        .filter-section {
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn .btn-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .filter-btn:hover .btn-shine,
+        .active-filter .btn-shine {
+            left: 100%;
+        }
+
+        /* Informasi Card Animations */
+        .informasi-card .card-inner {
             background: white;
             border-radius: 1rem;
             overflow: hidden;
@@ -317,7 +426,7 @@
             height: 100%;
         }
         
-        .pengurus-card:hover .card-inner {
+        .informasi-card:hover .card-inner {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
         }
@@ -332,53 +441,39 @@
             transition: transform 0.7s ease;
         }
         
-        .pengurus-card:hover .card-image {
-            transform: scale(1.15) rotate(2deg);
+        .informasi-card:hover .card-image {
+            transform: scale(1.15) rotate(1deg);
         }
         
         .card-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(124, 58, 237, 0.3) 100%);
+            background: linear-gradient(180deg, transparent 0%, rgba(124, 58, 237, 0.2) 100%);
             opacity: 0;
             transition: opacity 0.5s ease;
         }
         
-        .pengurus-card:hover .card-overlay {
+        .informasi-card:hover .card-overlay {
             opacity: 1;
         }
 
-        /* Profile Ring Animation */
-        .profile-ring {
-            position: absolute;
-            inset: -8px;
-            border-radius: 50%;
-            border: 2px solid rgba(124, 58, 237, 0.3);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .pengurus-card:hover .profile-ring {
-            opacity: 1;
-            animation: pulse-ring 2s infinite;
-        }
-        
-        @keyframes pulse-ring {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.5;
-            }
+        /* Badge Styles */
+        .badge-pengumuman {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
         }
 
-        /* Badge Jabatan */
-        .badge-jabatan {
+        .badge-berita {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        .badge-kegiatan {
+            background: linear-gradient(135deg, #10b981, #047857);
+        }
+
+        .pinned-badge {
             animation: badge-pulse 2s infinite;
         }
-        
+
         @keyframes badge-pulse {
             0%, 100% {
                 transform: scale(1);
@@ -400,7 +495,7 @@
             filter: blur(10px);
         }
         
-        .pengurus-card:hover .card-glow {
+        .informasi-card:hover .card-glow {
             opacity: 0.6;
             animation: glow-rotate 2s linear infinite;
         }
@@ -414,41 +509,24 @@
             }
         }
 
-        /* Button Primary */
-        .btn-primary {
-            @apply bg-gradient-to-r from-purple-600 to-purple-700 text-white px-8 py-4 rounded-full font-semibold transition-all shadow-lg hover:shadow-2xl inline-block relative overflow-hidden;
+        /* Arrow Link Animation */
+        .arrow-link {
+            position: relative;
         }
         
-        .btn-primary .btn-shine {
+        .arrow-link::after {
+            content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+        
+        .arrow-link:hover::after {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-        
-        .btn-primary:hover .btn-shine {
-            left: 100%;
-        }
-
-        /* Hover Card Effect */
-        .hover-card {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .hover-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(124, 58, 237, 0.2);
-        }
-
-        /* Text Gradient */
-        .text-gradient {
-            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         /* Empty State Animations */
@@ -531,6 +609,13 @@
             overflow: hidden;
         }
 
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
         /* Counter Animation */
         .counter-number {
             font-size: 1.75rem;
@@ -544,34 +629,12 @@
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .pengurus-card:hover .card-inner {
+            .informasi-card:hover .card-inner {
                 transform: translateY(-5px);
             }
             
-            .grid {
-                gap: 1.5rem;
-            }
-            
-            .empty-icon-wrapper {
-                width: 5rem;
-                height: 5rem;
-            }
-            
-            .empty-icon {
-                width: 3rem;
-                height: 3rem;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .card-inner {
-                margin: 0 auto;
-                max-width: 300px;
+            .filter-section {
+                position: static;
             }
         }
     </style>
@@ -657,6 +720,18 @@
                     }
                 });
             });
+
+            // Sticky filter animation
+            const filterSection = document.querySelector('.filter-section');
+            if (filterSection) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        filterSection.classList.add('shadow-xl');
+                    } else {
+                        filterSection.classList.remove('shadow-xl');
+                    }
+                });
+            }
         });
     </script>
 @endsection

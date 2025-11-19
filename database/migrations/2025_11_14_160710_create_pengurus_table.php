@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('foto')->nullable();
             $table->integer('umur');
             $table->string('jabatan');
+            $table->string('banner')->nullable();
             $table->timestamps();
+            
         });
     }
 

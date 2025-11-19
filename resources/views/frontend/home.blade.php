@@ -189,6 +189,118 @@
             @endif
         </div>
     </section>
+    <!-- Informasi AM Section dengan Grid Modern -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 reveal-on-scroll">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Informasi Terbaru
+            </h2>
+            <div class="w-24 h-1 bg-purple-600 mx-auto rounded-full animate-expand"></div>
+            <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                Update terbaru seputar kegiatan, pengumuman, dan berita Angkatan Muda
+            </p>
+        </div>
+
+        @if($informasiAMTerbaru->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                @foreach($informasiAMTerbaru as $index => $info)
+                    <div class="informasi-card reveal-on-scroll" style="animation-delay: {{ $index * 0.1 }}s">
+                        <div class="card-inner h-full flex flex-col">
+                            <!-- Thumbnail -->
+                            @if($info->thumbnail)
+                                <div class="aspect-video overflow-hidden bg-gray-100 card-image-wrapper">
+                                    <img src="{{ $info->thumbnail_url }}" alt="{{ $info->judul }}" 
+                                         class="w-full h-full object-cover card-image">
+                                    <div class="card-overlay"></div>
+                                    <!-- Badge Jenis -->
+                                    <div class="absolute top-4 left-4">
+                                        <span class="badge-{{ $info->jenis }} px-3 py-1 rounded-full text-xs font-semibold text-white">
+                                            {{ $info->icon }} {{ ucfirst($info->jenis) }}
+                                        </span>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="aspect-video bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center relative">
+                                    <span class="text-white text-4xl">{{ $info->icon }}</span>
+                                    <div class="absolute top-4 left-4">
+                                        <span class="badge-{{ $info->jenis }} px-3 py-1 rounded-full text-xs font-semibold text-white">
+                                            {{ ucfirst($info->jenis) }}
+                                        </span>
+                                    </div>
+                                </div>
+                            @endif
+                            
+                            <!-- Content -->
+                            <div class="p-6 flex-1 flex flex-col">
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                                        {{ $info->judul }}
+                                    </h3>
+                                    
+                                    @if($info->ringkasan)
+                                        <p class="text-gray-600 mb-4 line-clamp-3">
+                                            {{ $info->ringkasan }}
+                                        </p>
+                                    @else
+                                        <p class="text-gray-600 mb-4 line-clamp-3">
+                                            {!! Str::limit(strip_tags($info->isi), 120) !!}
+                                        </p>
+                                    @endif
+                                    
+                                    <!-- Metadata -->
+                                    <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                </svg>
+                                                {{ $info->published_at->format('d M Y') }}
+                                            </span>
+                                            @if($info->is_pinned)
+                                                <span class="flex items-center text-yellow-600">
+                                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                    </svg>
+                                                    Penting
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Action Button -->
+                                <a href="{{ route('informasi-am.detail', $info->id) }}" 
+                                   class="inline-flex items-center justify-center mt-4 text-purple-600 hover:text-purple-700 font-semibold group arrow-link">
+                                    Baca Selengkapnya
+                                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="text-center reveal-on-scroll">
+                <a href="{{ route('informasi-am') }}" class="btn-primary group">
+                    <span class="relative z-10">Lihat Semua Informasi</span>
+                    <div class="btn-shine"></div>
+                </a>
+            </div>
+        @else
+            <div class="text-center py-12 reveal-on-scroll">
+                <div class="text-gray-400 mb-4 bounce-in">
+                    <svg class="w-24 h-24 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <p class="text-gray-600">Belum ada informasi terbaru</p>
+            </div>
+        @endif
+    </div>
+</section>
 
     <!-- CTA Section dengan Pulse Animation -->
     <section class="py-16 bg-gradient-to-br from-purple-600 to-purple-800 text-white relative overflow-hidden">
@@ -220,6 +332,85 @@
     </section>
 
     <style>
+        /* Informasi AM Card Styles */
+.informasi-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.informasi-card.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.informasi-card .card-inner {
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+}
+
+.informasi-card:hover .card-inner {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
+}
+
+/* Badge Styles */
+.badge-pengumuman {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.badge-berita {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.badge-kegiatan {
+    background: linear-gradient(135deg, #10b981, #047857);
+}
+
+/* Line Clamp Utilities */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Card Image Effects */
+.informasi-card .card-image-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.informasi-card .card-image {
+    transition: transform 0.7s ease;
+}
+
+.informasi-card:hover .card-image {
+    transform: scale(1.15) rotate(1deg);
+}
+
+.informasi-card .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(124, 58, 237, 0.2) 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.informasi-card:hover .card-overlay {
+    opacity: 1;
+}
         /* Button Styles dengan Shine Effect */
         .btn-primary {
             @apply bg-white text-purple-700 px-8 py-4 rounded-full font-semibold transition-all shadow-lg hover:shadow-2xl inline-block relative overflow-hidden;
